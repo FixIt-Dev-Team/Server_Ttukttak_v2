@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    activate:
+      on-profile: local
+  config:
+    import:
+      - classpath:/resource-local/application-local-datasource.yml
