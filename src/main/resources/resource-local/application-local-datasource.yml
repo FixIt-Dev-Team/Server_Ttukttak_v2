@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    hikari:
+      maximum-poll-size: 5
+    driver-class-name:
+    url:
+    username:
+    password:
+    platform:
