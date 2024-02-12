@@ -1,0 +1,10 @@
+# 공통 설정 yml
+server:
+  port: 5201
+spring:
+  config:
+    activate:
+      on-profile: common
+    import:
+      - classpath:/resource-common/application-common-oauth.yml
+      - classpath:/resource-common/application-common-secret.yml

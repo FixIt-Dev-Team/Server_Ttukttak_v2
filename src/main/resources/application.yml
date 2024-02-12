@@ -1,0 +1,10 @@
+spring:
+  config:
+    import:
+      - classpath:/resource-common/application-common.yml
+      - classpath:/resource-local/application-local.yml
+      - classpath:/resource-dev/application-dev.yml
+  profiles:
+    group:
+      local: common, local
+      dev: common, dev

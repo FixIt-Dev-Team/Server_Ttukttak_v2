@@ -272,3 +272,6 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/netbeans,visualstudiocode,intellij,windows,macos,linux,gradle,groovy
+/src/main/resources/resource-common/application-common-secret.yml
+/src/main/resources/resource-common/application-common-oauth.yml
+/src/main/resources/resource-local/
