@@ -37,15 +37,22 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    // Docker support
+    //Database Support
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.2'
+    implementation 'org.postgresql:postgresql:42.7.1'
+
+    // Docker Support
 //    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // Test Support
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
-    // Actuator -> 향후 모니터링 붙일 것
+    // Actuator Support-> 향후 모니터링 붙일 것
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Logging Support
+    implementation 'org.springframework.boot:spring-boot-starter-logging:3.2.2'
 }
 
 tasks.named('test') {
