@@ -24,7 +24,7 @@ env:
   GCE_INSTANCE_ZONE: ${{ secrets.GCE_INSTANCE_ZONE}}
 
 jobs:
-  build-deploy:
+  build:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
@@ -52,6 +52,10 @@ jobs:
         run: ./gradlew build
         shell: bash
 
+  Auth-deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v2'
