@@ -1,13 +1,12 @@
 name: test-GCP-CI-CD
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
          logLevel:
-            description: 'Log level'     
+            description: 'CI-CD-TEST-RUN'
             required: true
             default: 'warning'
          tags:
@@ -88,3 +87,9 @@ jobs:
           gcloud compute instances update-container "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
           --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+      - name: Deploy
+        run: |-
+          gcloud compute ssh "$GCE_INSTANCE" \
+          --zone "$GCE_INSTANCE_ZONE" \
+          --command="ps -ejH"
