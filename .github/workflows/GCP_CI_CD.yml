@@ -83,8 +83,15 @@ jobs:
         with:
           version: '>= 363.0.0'
 
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+      #- name: 'Use gcloud CLI'
+        # run: 'gcloud info'
+
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: build-file
+      - name: list contents
+        run: ls
 
       # - name: Build and Push Container
         # run: |-
@@ -107,5 +114,6 @@ jobs:
           docker pull redis \
           docker run -p 6379:6379 --name ttukttak_redis redis \
           docker rm -f ttukttak \
-          docker pull ${{ env.REPOSITORY }}/${{ env.SERVICE }} \
-          docker run -p 8080:8080 --name ttukttak ${{ env.REPOSITORY }}/${{ env.SERVICE }} "
+          docker pull openjdk:17-jdk-alpine \
+          docker run -p 8080:8080 --name ttukttak openjdk:17-jdk-alpine"
+        # openjdk:17-jdk-alpine is test for now.
