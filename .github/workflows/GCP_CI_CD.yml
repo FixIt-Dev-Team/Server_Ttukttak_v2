@@ -76,17 +76,17 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
-      - name: Build and Push Container
-        run: |-
-          docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
-          docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+      # - name: Build and Push Container
+        # run: |-
+          # docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          # docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
 
       # END - Docker auth and build
-      - name: Deploy
-        run: |-
-          gcloud compute instances update-container "$GCE_INSTANCE" \
-          --zone "$GCE_INSTANCE_ZONE" \
-          --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+      # - name: Deploy
+        # run: |-
+          # gcloud compute instances update-container "$GCE_INSTANCE" \
+          # --zone "$GCE_INSTANCE_ZONE" \
+          # --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
 
       - name: Deploy
         run: |-
