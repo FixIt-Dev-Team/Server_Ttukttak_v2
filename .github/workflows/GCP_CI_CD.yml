@@ -109,8 +109,7 @@ jobs:
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
-          --command="bash -i -c \
-          docker rm -f ttukttak_redis \
+          --command="docker rm -f ttukttak_redis \
           docker pull redis \
           docker run -p 6379:6379 --name ttukttak_redis redis \
           docker rm -f ttukttak \
