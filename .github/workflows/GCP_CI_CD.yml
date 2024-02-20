@@ -114,4 +114,4 @@ jobs:
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
-          --command="bash -i -c /home/script/deploy.sh"
+          --command="bash -i -c sh /home/script/deploy.sh"
