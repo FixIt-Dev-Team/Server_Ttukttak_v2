@@ -52,6 +52,12 @@ jobs:
         run: ./gradlew build
         shell: bash
 
+      - name: upload build file
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-file
+          path: ./
+
   Auth-deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -96,4 +102,10 @@ jobs:
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
-          --command="ps -ejH"
+          --command="bash -i -c \
+          docker rm -f ttukttak_redis \
+          docker pull redis \
+          docker run -p 6379:6379 --name ttukttak_redis redis \
+          docker rm -f ttukttak \
+          docker pull ${{ env.REPOSITORY }}/${{ env.SERVICE }} \
+          docker run -p 8080:8080 --name ttukttak ${{ env.REPOSITORY }}/${{ env.SERVICE }} "
