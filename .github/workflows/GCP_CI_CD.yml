@@ -105,14 +105,11 @@ jobs:
           # --zone "$GCE_INSTANCE_ZONE" \
           # --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
 
+      - name: script load
+        run: deploy_script=$(<deploy.sh)
+
       - name: Deploy
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
-          --command="docker rm -f ttukttak_redis \
-          docker pull redis \
-          docker run -p 6379:6379 --name ttukttak_redis redis \
-          docker rm -f ttukttak \
-          docker pull openjdk:17-jdk-alpine \
-          docker run -p 8080:8080 --name ttukttak openjdk:17-jdk-alpine"
-        # openjdk:17-jdk-alpine is test for now.
+          --command="${deploy_script}"
