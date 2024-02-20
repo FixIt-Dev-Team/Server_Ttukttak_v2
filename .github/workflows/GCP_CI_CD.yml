@@ -107,7 +107,7 @@ jobs:
 
       - name: script send
         run: |-
-          gcloud compute scp ./deploy.sh "$GCE_INSTANCE":/
+          gcloud compute scp ./deploy.sh "${GCE_INSTANCE}:/"
           --zone "$GCE_INSTANCE_ZONE"
 
       - name: Deploy
