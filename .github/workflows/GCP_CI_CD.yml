@@ -106,10 +106,10 @@ jobs:
           # --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
 
       - name: script load
-        run: deploy_script=`cat deploy.sh`
+        run: deploy=`cat deploy.sh`
 
       - name: Deploy
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" \
           --zone "$GCE_INSTANCE_ZONE" \
-          --command="${{ deploy_script }}"
+          --command="${{ deploy }}"
