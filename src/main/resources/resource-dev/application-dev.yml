@@ -13,5 +13,5 @@ logging:
   level:
     root: error
     org.springframework.web: error
-    com.backend.ttukttak_v2.advice: debug
+    com.backend.ttukttak_v2.advice: errpr
     org.hibernate: error
