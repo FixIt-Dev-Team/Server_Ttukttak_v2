@@ -62,7 +62,7 @@ public class BaseResponse<T> {
      * @author destiny3912
      * @since 2024-02-24
      * */
-    public static ResponseEntity<Object> onAuth(HttpHeaders headers) {
+    public static ResponseEntity<BaseResponse<Object>> onAuth(HttpHeaders headers) {
         return ResponseEntity.noContent().headers(headers).build();
     }
 

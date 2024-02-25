@@ -18,6 +18,9 @@ public class TestController {
 
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BaseResponse<Object>> test() throws BaseException{
-        throw new BaseException(ErrorCode.NOT_FOUND);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Test", "Test");
+
+        return BaseResponse.onAuth(headers);
     }
 }
