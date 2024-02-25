@@ -1,14 +1,13 @@
-name: Review Assign
+name: 'Auto Assign Reviewer'
 
 on:
   pull_request:
     types: [ opened, ready_for_review ]
 
 jobs:
-  assign:
+  add-reviews:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v1
+      - uses: kentaro-m/auto-assign-action@v2.0.0
         with:
-          assignees: ${{ github.actor }} # assign pull request author
-          reviewers: destiny3912, m4a1carbin4, namsh1125
+          configuration-path: '.github/auto-assign.yml' # Only needed if you use something other than .github/auto_assign.yml
