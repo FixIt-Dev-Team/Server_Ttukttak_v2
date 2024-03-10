@@ -3,11 +3,14 @@ spring:
   config:
     activate:
       on-profile: local
+
     import:
       - classpath:/resource-local/application-local-datasource.yml
+
 logging:
   charset:
     console: utf-8
+
   level:
     root: info
     org.springframework.web: debug
