@@ -3,6 +3,10 @@ plugins {
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+
+    // Static Code Analysis
+    id 'org.sonarqube' version '4.4.1.3373'
+    id 'checkstyle'
 }
 
 group = 'com.backend'
@@ -24,6 +28,18 @@ repositories {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
+}
+
+sonar {
+    properties {
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.organization', 'backend-dev-team'
+        property 'sonar.projectKey', 'FixIt-Dev-Team_Server_Ttukttak_v2'
+    }
+}
+
+checkstyle {
+    toolVersion = "10.14.0"
 }
 
 dependencies {
