@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse<Object>> test() throws BaseException{
-        throw new BaseException(ErrorCode.NOT_FOUND);
+    public ResponseEntity<BaseResponse<Object>> test() {
+        throw BaseException.of(ErrorCode.NOT_FOUND);
     }
 }
