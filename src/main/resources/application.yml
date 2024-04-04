@@ -4,8 +4,10 @@ spring:
       - classpath:/resource-common/application-common.yml
       - classpath:/resource-local/application-local.yml
       - classpath:/resource-dev/application-dev.yml
+      - classpath:/resource-prod/application-prod.yml
 
   profiles:
     group:
       local: common, local
       dev: common, dev
+      prod: common, prod
