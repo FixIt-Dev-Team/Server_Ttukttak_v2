@@ -1,21 +1,21 @@
 name: test-GCP-CI-CD
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+
   workflow_dispatch:
     inputs:
-         logLevel:
-            description: 'Log level'     
-            required: true
-            default: 'warning'
-         tags:
-            description: 'Testing branch'
-            
+      logLevel:
+        description: 'CI-CD-TEST-RUN'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'deploy develop branch to DEV server'
+
 permissions:
- id-token: write
- contents: read
+  id-token: write
+  contents: read
 
 env:
   PROJECT_ID: "Ttucktak" # TODO: update Google Cloud project id
@@ -23,9 +23,11 @@ env:
   SERVICE: "ttucktak_server" # TODO: update Cloud Run service name
   GCE_INSTANCE: ${{ secrets.GCE_INSTANCE }}
   GCE_INSTANCE_ZONE: ${{ secrets.GCE_INSTANCE_ZONE}}
+  TERRAFORM_REPO: 'TODO' #TODO: update terraform manage repo
+  TERRAFORM_REPO_NAME : 'TODO' #TODO: update terraform manage repo name
 
 jobs:
-  build-deploy:
+  build:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
@@ -53,15 +55,6 @@ jobs:
         run: ./gradlew build
         shell: bash
 
-      - name: Google Auth
-        id: auth
-        uses: 'google-github-actions/auth@v2'
-        with:
-          token_format: 'access_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
-
-      # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Auth
         id: docker-auth
         uses: 'docker/login-action@v1'
@@ -69,22 +62,37 @@ jobs:
           username: 'wgnwmgm'
           password: '${{ secrets.WGNW_DOCKER_TOKEN }}'
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-        with:
-          version: '>= 363.0.0'
-
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+      - name: extract version
+        run: current_version=$(cat ./build.gradle | grep 'version = ' | awk -F " " '{ print substr($3, 2, length($3) - 2)}')
 
       - name: Build and Push Container
         run: |-
-          docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
-          docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+          docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}" ./
+          docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}"
 
-      # END - Docker auth and build
-      - name: Deploy
+      #- name: script send
+        #run: |-
+          #gcloud compute scp ./deploy.sh "${GCE_INSTANCE}:/home/script/" \
+          #--zone "$GCE_INSTANCE_ZONE"
+
+      #- name: Deploy
+        #run: |-
+          #gcloud compute ssh "$GCE_INSTANCE" \
+          #--zone "$GCE_INSTANCE_ZONE" \
+          #--command="sh /home/script/deploy.sh ${{current_version}}"
+
+  Terraform-deploy:
+    runs-on: self-hosted # ttukttak_dev
+    steps:
+      - name: move terraform dir
         run: |-
-          gcloud compute instances update-container "$GCE_INSTANCE" \
-          --zone "$GCE_INSTANCE_ZONE" \
-          --container-image "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+          cd ${env.TERRAFORM_REPO_DIR}
+
+      - name: terraform init and validate
+        run: |-
+          terraform init
+          terraform validate
+
+      - name: terraform apply
+        run: |-
+          terraform apply -auto-approve
