@@ -72,6 +72,7 @@ jobs:
           #docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}"
 
   Terraform-deploy:
+    needs: build
     runs-on: self-hosted # ttukttak_dev
     steps:
       - name: move terraform dir
