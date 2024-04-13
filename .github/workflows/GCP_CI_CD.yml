@@ -75,24 +75,20 @@ jobs:
     needs: build
     runs-on: self-hosted # ttukttak_dev
     steps:
-      - name: move terraform dir
-        run: |-
-          cd ${{env.TERRAFORM_REPO_DIR}}
-
-      - name: test action dir
-        run: |-
-          ls -a
 
       - name: check repo update
         run: |-
           remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/FixIt-Dev-Team/ttukttak-infra-terraform.git"
           git pull "$remote_repo" main
+        working-directory: ${{env.TERRAFORM_REPO_DIR}}
 
       - name: terraform init and validate
         run: |-
           terraform init
           terraform validate
+        working-directory: ${{env.TERRAFORM_REPO_DIR}}
 
       - name: terraform apply
         run: |-
           terraform apply -auto-approve
+        working-directory: ${{env.TERRAFORM_REPO_DIR}}
