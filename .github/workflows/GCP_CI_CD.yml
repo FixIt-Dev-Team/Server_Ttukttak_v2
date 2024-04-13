@@ -51,9 +51,9 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
-      - name: Build with Gradle
-        run: ./gradlew build
-        shell: bash
+      #- name: Build with Gradle
+        #run: ./gradlew build
+        #shell: bash
 
       - name: Docker Auth
         id: docker-auth
@@ -76,7 +76,7 @@ jobs:
     steps:
       - name: move terraform dir
         run: |-
-          cd ${env.TERRAFORM_REPO_DIR}
+          cd ${{env.TERRAFORM_REPO_DIR}}
 
       - name: check repo update
         run: |-
