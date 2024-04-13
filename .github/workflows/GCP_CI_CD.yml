@@ -79,6 +79,10 @@ jobs:
         run: |-
           cd ${{env.TERRAFORM_REPO_DIR}}
 
+      - name: test action dir
+        run: |-
+          ls -a
+
       - name: check repo update
         run: |-
           remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/FixIt-Dev-Team/ttukttak-infra-terraform.git"
