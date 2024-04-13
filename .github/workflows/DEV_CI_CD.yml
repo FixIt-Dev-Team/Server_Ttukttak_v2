@@ -23,8 +23,8 @@ env:
   SERVICE: "ttucktak_server" # TODO: update Cloud Run service name
   GCE_INSTANCE: ${{ secrets.GCE_INSTANCE }}
   GCE_INSTANCE_ZONE: ${{ secrets.GCE_INSTANCE_ZONE}}
-  TERRAFORM_REPO: 'TODO' #TODO: update terraform manage repo
-  TERRAFORM_REPO_NAME : 'TODO' #TODO: update terraform manage repo name
+  TERRAFORM_REPO: 'ttukttak-infra-terraform' #TODO: update terraform manage repo
+  TERRAFORM_REPO_DIR : '/home/m4a1carbin4/ttukttak-infra-terraform' #TODO: update terraform manage repo name
 
 jobs:
   build:
@@ -65,21 +65,11 @@ jobs:
       - name: extract version
         run: current_version=$(cat ./build.gradle | grep 'version = ' | awk -F " " '{ print substr($3, 2, length($3) - 2)}')
 
-      - name: Build and Push Container
-        run: |-
-          docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}" ./
-          docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}"
-
-      #- name: script send
+      #TODO need to setting ttukttak-server-v2 docker build
+      #- name: Build and Push Container
         #run: |-
-          #gcloud compute scp ./deploy.sh "${GCE_INSTANCE}:/home/script/" \
-          #--zone "$GCE_INSTANCE_ZONE"
-
-      #- name: Deploy
-        #run: |-
-          #gcloud compute ssh "$GCE_INSTANCE" \
-          #--zone "$GCE_INSTANCE_ZONE" \
-          #--command="sh /home/script/deploy.sh ${{current_version}}"
+          #docker build -t "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}" ./
+          #docker push "${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{current_version}}"
 
   Terraform-deploy:
     runs-on: self-hosted # ttukttak_dev
@@ -87,6 +77,10 @@ jobs:
       - name: move terraform dir
         run: |-
           cd ${env.TERRAFORM_REPO_DIR}
+
+      - name: check repo update
+        run: |-
+          git pull
 
       - name: terraform init and validate
         run: |-
