@@ -78,7 +78,8 @@ jobs:
 
       - name: check repo update
         run: |-
-          git pull main
+          remote_repo="https://${GITHUB_ACTOR}:${{secrets.TTUKTTAK_DEV_GIT_KEY}}@github.com/FixIt-Dev-Team/ttukttak-infra-terraform.git"
+          git pull "$remote_repo" main
         working-directory: ${{env.TERRAFORM_REPO_DIR}}
 
       - name: terraform init and validate
