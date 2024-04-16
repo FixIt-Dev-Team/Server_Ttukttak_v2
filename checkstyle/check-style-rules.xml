@@ -12,58 +12,12 @@
 - https://github.com/naver/hackday-conventions-java/blob/master/rule-config/naver-checkstyle-rules.xml
 -->
 
-<!--
-The following rules in the Naver coding convention cannot be checked by this configuration file.
-
-- [avoid-korean-pronounce]
-- [class-noun]
-- [interface-noun-adj]
-- [method-verb-preposition]
-- [space-after-bracket]
-- [space-around-comment]
--->
-
-<!--
-Defferences from the Naver coding convention: detail is in the Notion page.
-
-- [blankline-after-package] : deleted
-- [import-grouping] : modified
-- [list-uppercase-abbr] : modified
--->
-
 <module name="Checker">
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java"/>
 
     <!-- [encoding-utf8] -->
     <property name="charset" value="UTF-8"/>
-
-    <!-- [newline-lf] -->
-    <module name="RegexpMultiline">
-        <property name="format" value="\r\n"/>
-        <property name="message" value="[newline-lf] Line must end with LF, not CRLF"/>
-    </module>
-
-
-    <!-- [newline-eof] -->
-    <module name="NewlineAtEndOfFile">
-        <property name="lineSeparator" value="lf"/>
-    </module>
-
-    <!-- [no-trailing-spaces] -->
-    <module name="RegexpSingleline">
-        <property name="format" value="^(?!\s+\* $).*?\s+$"/>
-        <property name="message" value="[no-trailing-spaces] Line has trailing spaces."/>
-    </module>
-
-    <!-- [line-length-120] -->
-    <property name="tabWidth" value="4"/>
-    <module name="LineLength">
-        <property name="max" value="120"/>
-        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-        <message key="maxLineLen"
-                 value="[line-length-120] Line is longer than {0,number,integer} characters (found {1,number,integer})"/>
-    </module>
 
     <module name="TreeWalker">
         <!-- Start of Naming chapter -->
@@ -79,7 +33,7 @@ Defferences from the Naver coding convention: detail is in the Notion page.
 
         <!-- [package-lowercase] -->
         <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9_]*)*$"/>
             <message key="name.invalidPattern"
                      value="[package-lowercase] Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -128,21 +82,6 @@ Defferences from the Naver coding convention: detail is in the Notion page.
         <message key="name.invalidPattern"
                  value="[1-top-level-class] one.top.level.class=Top-level class {0} has to reside in its own source file."/>
 
-        <!-- [avoid-star-import] -->
-        <module name="AvoidStarImport">
-            <property name="allowStaticMemberImports" value="true"/>
-            <message key="import.avoidStar"
-                     value="[avoid-star-import] Using the ''.*'' form of import should be avoided - {0}."/>
-        </module>
-
-        <!-- [modifier-order] -->
-        <module name="ModifierOrder">
-            <message key="mod.order"
-                     value="[modifier-order] ''{0}'' modifier out of order with the JLS suggestions."/>
-            <message key="annotation.order"
-                     value="[modifier-order] ''{0}'' annotation modifier does not precede non-annotation modifiers."/>
-        </module>
-
         <!-- [newline-after-annotation] -->
         <module name="AnnotationLocation">
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
@@ -165,39 +104,9 @@ Defferences from the Naver coding convention: detail is in the Notion page.
                      value="[1-var-per-declaration] Each variable declaration must be in its own statement."/>
         </module>
 
-        <!-- [array-square-after-type] -->
-        <module name="ArrayTypeStyle">
-            <message key="array.type.style"
-                     value="[array-square-after-type] Array brackets at illegal position."/>
-        </module>
-
-        <!-- [long-value-suffix] -->
-        <module name="UpperEll">
-            <message key="upperEll" value="[long-value-suffix] Should use uppercase ''L''."/>
-        </module>
-
-        <!-- [special-escape] -->
-        <module name="IllegalTokenText">
-            <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
-            <property name="format"
-                      value="\\u00(08|09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
-            <property name="message"
-                      value="[array-square-after-type]  Avoid using corresponding octal or Unicode escape."/>
-        </module>
-
         <!-- End of Declarations chapter -->
 
         <!-- Start of Indentation chapter -->
-
-        <!-- [4-spaces-tab] -->
-        <property name="tabWidth" value="4"/>
-
-        <!-- [indentation-tab] -->
-        <module name="RegexpSinglelineJava">
-            <property name="format" value="^\t* "/>
-            <property name="message" value="[indentation-tab] Indent must use tab characters"/>
-            <property name="ignoreComments" value="true"/>
-        </module>
 
         <!-- End of Indentation chapter -->
 
@@ -252,16 +161,6 @@ Defferences from the Naver coding convention: detail is in the Notion page.
                      value="[1-line-package-import] {0} statement should not be line-wrapped."/>
         </module>
 
-        <!-- [block-indentation][indentation-after-line-wrapping] -->
-        <module name="Indentation">
-            <property name="basicOffset" value="4"/>
-            <property name="braceAdjustment" value="0"/>
-            <property name="caseIndent" value="4"/>
-            <property name="throwsIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="4"/>
-            <property name="arrayInitIndent" value="4"/>
-        </module>
-
         <!-- [line-wrapping-position] -->
         <module name="SeparatorWrap">
             <property name="tokens" value="COMMA"/>
@@ -288,34 +187,6 @@ Defferences from the Naver coding convention: detail is in the Notion page.
         <!-- Start of Blank lines chapter -->
 
         <!-- [import-grouping] -->
-        <module name="ImportOrder">
-            <property name="groups"
-                      value="
-                      java.,
-                      javax.,
-                      jakarta.,
-                      org.,
-                      net.,
-                      /com\.(?!example.namo2.global.|example.namo2.domain.)/,
-                      /(?!java\.|javax\.|com\.|org\.|net\.)/,
-                      com.example.namo2.domain.category.,
-                      com.example.namo2.domain.memo.,
-                      com.example.namo2.domain.moim.,
-                      com.example.namo2.domain.schedule.,
-                      com.example.namo2.domain.user.,
-                      com.example.namo2.global.,
-                      lombok."/>
-            <property name="ordered" value="true"/>
-            <property name="separated" value="true"/>
-            <property name="option" value="top"/>
-            <property name="sortStaticImportsAlphabetically" value="true"/>
-            <message key="import.groups.separated.internally"
-                     value="[import-grouping] Extra separation in import group before ''{0}''"/>
-            <message key="import.ordering"
-                     value="[import-grouping] Wrong order for ''{0}'' import."/>
-            <message key="import.separation"
-                     value="[import-grouping] ''{0}'' should be separated from previous imports."/>
-        </module>
 
         <!-- [blankline-between-methods] -->
         <module name="EmptyLineSeparator">
