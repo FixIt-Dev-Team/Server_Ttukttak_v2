@@ -31,7 +31,7 @@ public enum ErrorCode {
      * 500 INTERNAL_SERVER_ERROR
      * */
     INTERNAL_SERVER_ERROR(HttpStatusCode.valueOf(500), "COMMON_5000", "Internal server error");
-    ;
+
     private final HttpStatusCode status;
     private final String code;
     private final String reason;
