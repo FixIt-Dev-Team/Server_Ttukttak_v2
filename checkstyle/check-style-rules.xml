@@ -33,7 +33,7 @@
 
         <!-- [package-lowercase] -->
         <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9_]*)*$"/>
             <message key="name.invalidPattern"
                      value="[package-lowercase] Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -81,13 +81,6 @@
         <module name="OneTopLevelClass"/>
         <message key="name.invalidPattern"
                  value="[1-top-level-class] one.top.level.class=Top-level class {0} has to reside in its own source file."/>
-
-        <!-- [avoid-star-import] -->
-        <module name="AvoidStarImport">
-            <property name="allowStaticMemberImports" value="true"/>
-            <message key="import.avoidStar"
-                     value="[avoid-star-import] Using the ''.*'' form of import should be avoided - {0}."/>
-        </module>
 
         <!-- [newline-after-annotation] -->
         <module name="AnnotationLocation">
