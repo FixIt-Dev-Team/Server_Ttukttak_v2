@@ -34,6 +34,13 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Set Secret yml file.
+        run: touch ./src/main/resources/secret.yml && echo "${{ secrets.SECRETYML }}" > ./src/main/resources/secret.yml && cat ./src/main/resources/secret.yml
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
       - name: Build and analyze
         run: ./gradlew build jacocoTestReport sonar --info
         env:
