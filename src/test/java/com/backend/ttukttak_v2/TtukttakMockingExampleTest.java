@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.notNull;
 
 @ExtendWith(MockitoExtension.class)
-class MockingTestExample {
+class TtukttakMockingExampleTest {
 
     @Mock
     private DummyAction action;
