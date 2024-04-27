@@ -7,6 +7,9 @@ plugins {
     // Static Code Analysis
     id 'org.sonarqube' version '4.4.1.3373'
     id 'checkstyle'
+
+    // Junit5
+    id 'idea'
 }
 
 group = 'com.backend'
@@ -24,6 +27,13 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 ext {
@@ -64,6 +74,10 @@ dependencies {
     // Test Support
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation(platform('org.junit:junit-bom:5.10.2'))
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
 
     // Actuator Support-> 향후 모니터링 붙일 것
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
