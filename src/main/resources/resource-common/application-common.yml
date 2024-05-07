@@ -8,5 +8,5 @@ spring:
       on-profile: common
 
     import:
-      - classpath:/resource-common/application-common-oauth.yml
-      - classpath:/resource-common/application-common-secret.yml
+#      - classpath:/resource-common/application-common-oauth.yml
+#      - classpath:/resource-common/application-common-secret.yml
