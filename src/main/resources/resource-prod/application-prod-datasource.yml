@@ -1,20 +1,30 @@
 # dev 서버 Database 설정 yml
 spring:
   jpa:
-    database: postgresql
+    database: mysql
     properties:
       hibernate:
         format_sql: false
         use_sql_comments: false
         hbm2ddl:
-          auto: none
+          auto: create-drop
+  data:
+    redis:
+      host: localhost
+      port: 6379
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: solution
+      username: root
+      password: 1234
   datasource:
     hikari:
       maximum-pool-size: 4
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432
-    username: postgres
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ttukttak
+    username: root
+    password: root
   sql:
     init:
-      platform: postgres
+      platform: mysql
+      encoding: UTF-8
