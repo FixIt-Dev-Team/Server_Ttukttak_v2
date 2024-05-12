@@ -1,5 +1,6 @@
 package com.backend.ttukttak_v2;
 
+import com.backend.ttukttak_v2.core.health.TestController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class TtukttakV2ApplicationMockTests {
 
-    @Mock
     private MockMvc mockMvc;
 
     @InjectMocks

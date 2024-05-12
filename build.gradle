@@ -88,7 +88,7 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
-
+}
 
 tasks.named('test') {
     outputs.dir snippetsDir

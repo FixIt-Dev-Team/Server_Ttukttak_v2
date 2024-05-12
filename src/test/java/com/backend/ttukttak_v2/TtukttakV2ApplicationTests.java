@@ -37,9 +37,18 @@ class TtukttakV2ApplicationTests {
     void contextLoads() throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<DummyReqDto> entity = new HttpEntity<>(DummyReqDto.builder().input(10).build(),headers);
-        ResponseEntity<BaseResponse> dummyResult = restTemplate.exchange("http://localhost:"+randomServerPort+"/test/mvc", HttpMethod.GET,entity, BaseResponse.class);
-        Assertions.assertEquals(BaseResponse.onSuccess("{\"test\":\"clear\"}").getBody().getData(),dummyResult.getBody().getData());
+        HttpEntity<DummyReqDto> entity =
+                new HttpEntity<>(DummyReqDto.builder().input(10).build(),headers);
+
+        ResponseEntity<BaseResponse> dummyResult
+                = restTemplate.exchange("http://localhost:"+randomServerPort+"/test/mvc",
+                HttpMethod.GET,entity, BaseResponse.class);
+
+        Assertions.assertEquals(
+                BaseResponse.onSuccess("{\"test\":\"clear\"}").getBody().getData(),
+                dummyResult.getBody().getData()
+        );
+
         System.out.println("mvcResult :: " + dummyResult.toString());
 
     }
