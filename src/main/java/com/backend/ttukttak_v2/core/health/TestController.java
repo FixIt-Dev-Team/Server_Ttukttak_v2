@@ -15,4 +15,9 @@ public class TestController {
     public ResponseEntity<BaseResponse<Object>> test() {
         return BaseResponse.onSuccess("ok");
     }
+
+    @GetMapping(value = "/mvc", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BaseResponse<Object>> testMvc() {
+        return BaseResponse.onSuccess("{\"test\":\"clear\"}");
+    }
 }
