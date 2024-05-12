@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.data.entity;
+package com.backend.ttukttak_v2.data.mysql.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

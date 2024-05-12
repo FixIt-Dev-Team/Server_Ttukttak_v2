@@ -1,7 +1,7 @@
-package com.backend.ttukttak_v2.data.entity;
+package com.backend.ttukttak_v2.data.mysql.entity;
 
-import com.backend.ttukttak_v2.data.enums.PostCategory;
-import com.backend.ttukttak_v2.data.enums.PostStatus;
+import com.backend.ttukttak_v2.data.mysql.enums.PostCategory;
+import com.backend.ttukttak_v2.data.mysql.enums.PostStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.data.entity;
+package com.backend.ttukttak_v2.data.mysql.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Table(name = "TB_POLICY_APPROVE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PolicyApprove extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "approveIdx")

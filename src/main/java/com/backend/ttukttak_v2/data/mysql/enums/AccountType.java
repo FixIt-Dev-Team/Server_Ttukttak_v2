@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.data.enums;
+package com.backend.ttukttak_v2.data.mysql.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
