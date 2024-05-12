@@ -7,6 +7,16 @@ spring:
     activate:
       on-profile: common
 
-    import:
-      - classpath:/resource-common/application-common-oauth.yml
-      - classpath:/resource-common/application-common-secret.yml
+management:
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+  health:
+    db:
+      enabled: true
+    redis:
+      enabled: true
+    defaults:
+      enabled: true
+
