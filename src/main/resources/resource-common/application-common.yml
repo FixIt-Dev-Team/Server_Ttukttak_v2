@@ -7,6 +7,16 @@ spring:
     activate:
       on-profile: common
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            redirect-uri: "http://127.0.0.1:5201/login/oauth2/code/google"
+            client-name: TtukTtakv2
+
 management:
   endpoint:
     health:
@@ -20,3 +30,11 @@ management:
     defaults:
       enabled: true
 
+jwt:
+  secret: "70414338c5422352363a7ce539b17605623a0ade7799aa3f761b33c13244eaac6b61d4c7f9d03ab95493f6be008d04a599c571d92c8b2eb6615e318d39d2c397fd54baf73ed493e5505f947b9827a58b2b9718028472f477ebf89705bfb86972fb2da6d0b48dce7cbe8da78acd04b04dc7a43d74baa61332f2f5d1beb19c7aa328b322e5e1da71139cff3be174d541ca673b6fb1596139ccea7701df1104703d2f0b15ddd0df38bbe92a1306a755f6b27e136ad866ca7daf080106e2b2a47ad409d57433e2a33abaf64cc74998239cd2d7a6dfa5e2b48a8b1b387fc3e6b2f626a69002e811aac7682ac3cefea953ba65a782328b5a57f817d7c88079c0da7db8"
+  expire:
+    access: 360000
+    refresh: 172000
+
+oauth:
+  token-url: "http://localhost:5201/api/auth/oauth/token"
