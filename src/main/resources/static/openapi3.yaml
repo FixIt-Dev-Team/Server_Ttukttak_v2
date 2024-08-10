@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: My API
+  description: My API description
+  version: 0.1.0
+servers:
+- url: https://localhost:8080
+tags: []
+paths:
+  /test/mvc:
+    get:
+      tags:
+      - test
+      summary: Create a cart
+      description: Create a cart
+      operationId: carts-create
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/test-mvc486549215'
+              examples:
+                carts-create:
+                  value: "{\"isSuccess\":true,\"code\":\"COMMON_2000\",\"message\"\
+                    :\"Request success\",\"data\":\"{\\\"test\\\":\\\"clear\\\"}\"\
+                    }"
+components:
+  schemas:
+    test-mvc486549215:
+      type: object

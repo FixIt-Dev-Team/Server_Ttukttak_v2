@@ -10,6 +10,9 @@ plugins {
 
     // Junit5
     id 'idea'
+
+    // Junit5 to SwaggerDocs
+    id 'com.epages.restdocs-api-spec' version '0.18.2'
 }
 
 group = 'com.backend'
@@ -88,6 +91,35 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
+
+    // Junit5 to SwaggerDocs
+    implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+}
+
+openapi { //2.3
+    host = 'localhost:8080'
+    basePath = '/api'
+    title = 'My API'
+    description = 'My API description'
+    //tagDescriptionsPropertiesFile = 'src/docs/tag-descriptions.yaml'
+    version = '1.0.0'
+    format = 'json'
+}
+
+openapi3 {
+    server = 'https://localhost:8080'
+    title = 'My API'
+    description = 'My API description'
+    //tagDescriptionsPropertiesFile = 'src/docs/tag-descriptions.yaml'
+    version = '0.1.0'
+    format = 'yaml'
+}
+
+postman {
+    title = 'My API'
+    version = '0.1.0'
+    baseUrl = 'https://localhost:8080'
 }
 
 tasks.named('test') {
@@ -98,4 +130,9 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+tasks.register('copySwagger',Copy){
+    from layout.buildDirectory.file('api-spec/openapi3.yaml')
+    into layout.projectDirectory.dir('src/main/resources/static')
 }

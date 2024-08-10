@@ -5,7 +5,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: common
+      on-profile: local
 
 management:
   endpoint:
@@ -19,4 +19,9 @@ management:
       enabled: true
     defaults:
       enabled: true
+
+slack:
+  webhook:
+    notification:
+      error: https://hooks.slack.com/services/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
 
