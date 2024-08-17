@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author destiny3912
  * @since 2024-02-24
- * */
+ */
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,13 +30,15 @@ public class BaseResponse<T> {
      *
      * @author destiny3912
      * @since 2024-02-24
-     * */
-    public static <T> ResponseEntity<BaseResponse<Object>> onSuccess(T data) {
+     */
+    @SuppressWarnings("unchecked") // 무조건 T 타입이어야 하기 때문에
+    public static <T> ResponseEntity<BaseResponse<T>> onSuccess(T data) {
         return ResponseEntity.ok(
-                BaseResponse.builder()
-                        .code(SuccessCode.COMMON_2000)
-                        .data(data)
-                        .build()
+                (BaseResponse<T>)
+                        BaseResponse.builder()
+                                .code(SuccessCode.COMMON_2000)
+                                .data(data)
+                                .build()
 
         );
     }
@@ -46,13 +48,15 @@ public class BaseResponse<T> {
      *
      * @author destiny3912
      * @since 2024-02-24
-     * */
-    public static <T> ResponseEntity<BaseResponse<Object>> onCreate(T data) {
+     */
+    @SuppressWarnings("unchecked") // 무조건 T 타입이어야 하기 때문에
+    public static <T> ResponseEntity<BaseResponse<T>> onCreate(T data) {
         return ResponseEntity.status(SuccessCode.COMMON_2010.getStatus()).body(
-                BaseResponse.builder()
-                        .code(SuccessCode.COMMON_2010)
-                        .data(data)
-                        .build()
+                (BaseResponse<T>)
+                        BaseResponse.builder()
+                                .code(SuccessCode.COMMON_2010)
+                                .data(data)
+                                .build()
         );
     }
 
@@ -61,8 +65,8 @@ public class BaseResponse<T> {
      *
      * @author destiny3912
      * @since 2024-02-24
-     * */
-    public static ResponseEntity<BaseResponse<Object>> onAuth(HttpHeaders headers) {
+     */
+    public static ResponseEntity<Void> onAuth(HttpHeaders headers) {
         return ResponseEntity.noContent().headers(headers).build();
     }
 
@@ -71,14 +75,16 @@ public class BaseResponse<T> {
      *
      * @author destiny3912
      * @since 2024-02-24
-     * */
-    public static <T> ResponseEntity<BaseResponse<Object>> onFailure(ErrorCode errorCode, T errorData) {
+     */
+    @SuppressWarnings("unchecked") // 무조건 T 타입이어야 하기 때문에
+    public static <T> ResponseEntity<BaseResponse<T>> onFailure(ErrorCode errorCode, T errorData) {
         return ResponseEntity.status(errorCode.getStatus()).body(
-                BaseResponse.errorBuilder()
-                        .errorCode(errorCode)
-                        .message(errorCode.getReason())
-                        .errorData(errorData)
-                        .errorBuild()
+                (BaseResponse<T>)
+                        BaseResponse.errorBuilder()
+                                .errorCode(errorCode)
+                                .message(errorCode.getReason())
+                                .errorData(errorData)
+                                .errorBuild()
         );
     }
 
@@ -87,13 +93,15 @@ public class BaseResponse<T> {
      *
      * @author destiny3912
      * @since 2024-02-24
-     * */
-    public static <T> ResponseEntity<BaseResponse<Object>> onFailure(ErrorCode errorCode) {
+     */
+    @SuppressWarnings("unchecked") // 무조건 T 타입이어야 하기 때문에
+    public static <T> ResponseEntity<BaseResponse<T>> onFailure(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getStatus()).body(
-                BaseResponse.errorBuilder()
-                        .errorCode(errorCode)
-                        .message(errorCode.getReason())
-                        .errorBuild()
+                (BaseResponse<T>)
+                        BaseResponse.errorBuilder()
+                                .errorCode(errorCode)
+                                .message(errorCode.getReason())
+                                .errorBuild()
         );
     }
 

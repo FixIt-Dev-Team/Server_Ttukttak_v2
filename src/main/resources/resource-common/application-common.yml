@@ -6,8 +6,8 @@ spring:
   config:
     activate:
       on-profile: common
-
-management:
+    import:
+      - classpath:/resource-common/application-common-secret.yml
   endpoint:
     health:
       show-details: always
@@ -20,3 +20,5 @@ management:
     defaults:
       enabled: true
 
+oauth:
+  token-url: "http://localhost:5201/api/auth/oauth/token"

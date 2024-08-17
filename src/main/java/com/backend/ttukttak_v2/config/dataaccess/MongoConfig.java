@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.config;
+package com.backend.ttukttak_v2.config.dataaccess;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
