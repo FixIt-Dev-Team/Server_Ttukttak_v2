@@ -66,6 +66,14 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+    // Security Support
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-gson:0.12.5'
+    implementation 'com.google.api-client:google-api-client:2.6.0'
+
     // Database Support
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.4'
@@ -81,6 +89,7 @@ dependencies {
     testImplementation(platform('org.junit:junit-bom:5.10.2'))
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.mockito:mockito-core:5.8.0'
 
     // Actuator Support-> 향후 모니터링 붙일 것
@@ -91,6 +100,7 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
+
 
     // Junit5 to SwaggerDocs
     implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2
