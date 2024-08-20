@@ -8,6 +8,8 @@ spring:
       on-profile: common
     import:
       - classpath:/resource-common/application-common-secret.yml
+
+management:
   endpoint:
     health:
       show-details: always
@@ -22,3 +24,9 @@ spring:
 
 oauth:
   token-url: "http://localhost:5201/api/auth/oauth/token"
+
+slack:
+  webhook:
+    notification:
+      error: https://hooks.slack.com/services/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
+

@@ -6,6 +6,10 @@ spring:
       - classpath:/resource-dev/application-dev.yml
       - classpath:/resource-prod/application-prod.yml
 
+springdoc:
+  swagger-ui:
+    url: /openapi3.yaml
+
   profiles:
     group:
       local: common, local

@@ -8,15 +8,24 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureRestDocs
+@ExtendWith({RestDocumentationExtension.class,MockitoExtension.class})
 class TtukttakV2ApplicationMockTests {
 
     private MockMvc mockMvc;
@@ -25,8 +34,8 @@ class TtukttakV2ApplicationMockTests {
     private TestController testController;
 
     @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(testController).build();
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
+        mockMvc = MockMvcBuilders.standaloneSetup(testController).apply(documentationConfiguration(restDocumentation)).build();
 
     }
 
@@ -35,12 +44,12 @@ class TtukttakV2ApplicationMockTests {
     void contextLoads() throws Exception {
 
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/test/mvc"));
+                RestDocumentationRequestBuilders.get("/test/mvc"));
 
         MvcResult mvcResult = resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("data").value("{\"test\":\"clear\"}"))
-                .andDo(print())
+                .andDo(document("carts-create", resource("Create a cart")))
                 .andReturn();
 
         System.out.println("mvcResult :: " + mvcResult.getResponse().getContentAsString());
