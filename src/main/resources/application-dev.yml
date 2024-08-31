@@ -4,9 +4,6 @@ spring:
     activate:
       on-profile: dev
 
-    import:
-      - classpath:/resource-dev/application-dev-datasource.yml
-
 # Todo: 추후 logback 설정으로 넘길 것 (임시)
 logging:
   charset:
@@ -15,5 +12,5 @@ logging:
   level:
     root: error
     org.springframework.web: error
-    com.backend.ttukttak_v2.advice: errpr
+    com.backend.ttukttak_v2.advice: error
     org.hibernate: error
