@@ -1,13 +1,8 @@
 spring:
   config:
     import:
-      - classpath:/resource-common/application-common.yml
-      - classpath:/resource-local/application-local.yml
-      - classpath:/resource-dev/application-dev.yml
-      - classpath:/resource-prod/application-prod.yml
-
-  profiles:
-    group:
-      local: common, local
-      dev: common, dev
-      prod: common, prod
+        - classpath:application-local.yml
+        - classpath:application-cicd.yml
+        - classpath:application-dev.yml
+        - classpath:application-prod.yml
+        - classpath:secret.yml
