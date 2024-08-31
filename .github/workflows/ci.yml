@@ -34,6 +34,18 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Create local profile (폴더 생성 및 파일 생성)
+        run: |
+          mkdir ./src/main/resources/local 
+          touch ./src/main/resources/local/application-local.yml
+
+      - name: Set Secret yml file.
+        run: touch ./src/main/resources/secret.yml && echo "${{ secrets.SECRETYML }}" > ./src/main/resources/secret.yml && cat ./src/main/resources/secret.yml
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
       - name: Build and analyze
         run: ./gradlew build jacocoTestReport sonar --info
         env:

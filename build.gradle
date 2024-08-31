@@ -5,6 +5,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 
     // Static Code Analysis
+    id 'jacoco'
     id 'org.sonarqube' version '4.4.1.3373'
     id 'checkstyle'
 
@@ -46,6 +47,10 @@ sonar {
         property 'sonar.organization', 'backend-dev-team'
         property 'sonar.projectKey', 'FixIt-Dev-Team_Server_Ttukttak_v2'
     }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
 }
 
 checkstyle {
