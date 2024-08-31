@@ -39,7 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final String AUTH_URL_PATTERN = "/api/auth";
     private final List<String> OAUTH_URL = List.of(
             "/oauth2/authorization/google",
-            "/login/oauth2/code/google"
+            "/login/oauth2/code/google",
+            "/test/mvc"
     );
     private final JwtService jwtService;
     private final AuthService authService;

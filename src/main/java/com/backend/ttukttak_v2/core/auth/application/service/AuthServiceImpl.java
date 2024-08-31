@@ -3,6 +3,7 @@ package com.backend.ttukttak_v2.core.auth.application.service;
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
 import com.backend.ttukttak_v2.data.mysql.entity.User;
+import com.backend.ttukttak_v2.data.mysql.enums.AccountType;
 import com.backend.ttukttak_v2.data.mysql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,22 @@ public class AuthServiceImpl implements AuthService {
                 BaseException.of(ErrorCode.TOKEN_REFRESH_USER_NOT_FOUND));
 
         user.updateRefreshToken(refreshToken);
+    }
+
+    @Override
+    public User findUserForPW(String email, AccountType userType) {
+        User user = userRepository.findUserByEmailAndAccountType(email, userType).orElseThrow(() -> BaseException.of(ErrorCode.EMAIL_USER_NOT_FOUND));
+
+        return user;
+    }
+
+    @Override
+    public boolean updateUserPasswd(long userIdx,String newPasswd){
+        User user = userRepository.findById(userIdx).orElseThrow(() ->
+        BaseException.of(ErrorCode.LOGIN_USER_NOT_FOUND));
+
+        user.updateUserPasswd(newPasswd);
+
+        return true;
     }
 }

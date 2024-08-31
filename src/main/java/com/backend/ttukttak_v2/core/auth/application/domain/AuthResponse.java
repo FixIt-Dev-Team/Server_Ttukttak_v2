@@ -16,4 +16,16 @@ public class AuthResponse {
             return new LoginResDto(tokenInfo);
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class PasswdResDto {
+        private Boolean EmailClear;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class PasswdResetResDto {
+        private Boolean Status;
+    }
 }

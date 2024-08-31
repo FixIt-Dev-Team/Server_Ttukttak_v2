@@ -101,6 +101,8 @@ dependencies {
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
 
+    //email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // Junit5 to SwaggerDocs
     implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2

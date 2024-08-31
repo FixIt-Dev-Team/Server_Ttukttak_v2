@@ -32,6 +32,7 @@ public enum ErrorCode {
      */
     NOT_FOUND(HttpStatusCode.valueOf(404), "COMMON_4040", "Resource not found"),
     TOKEN_REFRESH_USER_NOT_FOUND(HttpStatusCode.valueOf(404), "AUTH_4040", "Fatal Error: 토큰 갱신요청 유저가 존재하지 않습니다"),
+    EMAIL_USER_NOT_FOUND(HttpStatusCode.valueOf(404), "AUTH_4040", "Fatal Error: 해당 이메일의 유저가 존재하지 않습니다"),
 
     /**
      * 409 CONFLICT
