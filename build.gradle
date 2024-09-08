@@ -38,6 +38,7 @@ test {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
+    springCloudVersion = "2023.0.3"
 }
 
 sonar {
@@ -56,6 +57,9 @@ dependencies {
 
     // Web Support
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Cloud Support
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     // Dev Support
     compileOnly 'org.projectlombok:lombok'
@@ -100,6 +104,12 @@ dependencies {
 
     // Converter
 
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
 
 tasks.named('test') {
