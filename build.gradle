@@ -5,6 +5,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 
     // Static Code Analysis
+    id 'jacoco'
     id 'org.sonarqube' version '4.4.1.3373'
     id 'checkstyle'
 
