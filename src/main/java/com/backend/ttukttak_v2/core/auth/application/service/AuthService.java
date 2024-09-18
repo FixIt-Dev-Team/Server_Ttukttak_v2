@@ -8,4 +8,8 @@ public interface AuthService {
     boolean checkRefreshToken(String refreshToken, Long userIdx);
 
     void updateRefreshToken(String refreshToken, Long userIdx);
+
+    void signUp(String email, String password);
+
+    String generateVerifyCode();
 }

@@ -2,6 +2,7 @@ package com.backend.ttukttak_v2.core.auth.application.service;
 
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
+import com.backend.ttukttak_v2.base.util.EncodeUtil;
 import com.backend.ttukttak_v2.data.mysql.entity.User;
 import com.backend.ttukttak_v2.data.mysql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,24 @@ public class AuthServiceImpl implements AuthService {
                 BaseException.of(ErrorCode.TOKEN_REFRESH_USER_NOT_FOUND));
 
         user.updateRefreshToken(refreshToken);
+    }
+
+    @Override
+    public void signUp(String email, String password) {
+        password = EncodeUtil.encode(password);
+
+        userRepository.findByEmailAndPassword(email, password).ifPresent(user -> {
+            throw BaseException.of(ErrorCode.SIGN_UP_USER_ALREADY_EXISTS);
+        });
+
+        userRepository.save(User.builder()
+                .email(email)
+                .password(password)
+                .build());
+    }
+
+    @Override
+    public String generateVerifyCode() {
+        return String.valueOf((int) (Math.random() * 1000000));
     }
 }

@@ -16,4 +16,14 @@ public class AuthResponse {
             return new LoginResDto(tokenInfo);
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class VerifyEmailResDto {
+        private String code;
+
+        public static VerifyEmailResDto of(String code) {
+            return new VerifyEmailResDto(code);
+        }
+    }
 }

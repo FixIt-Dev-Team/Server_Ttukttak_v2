@@ -10,13 +10,13 @@ plugins {
 
     // Junit5
     id 'idea'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.backend'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
 }
 
 configurations {
@@ -56,6 +56,7 @@ dependencies {
 
     // Web Support
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Dev Support
     compileOnly 'org.projectlombok:lombok'
@@ -97,7 +98,11 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
+    // Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
     // Converter
 
 }
@@ -110,4 +115,7 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+kotlin {
+    jvmToolchain(17)
 }

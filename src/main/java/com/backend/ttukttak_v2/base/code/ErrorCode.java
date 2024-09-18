@@ -27,6 +27,7 @@ public enum ErrorCode {
      * 403 Forbidden
      */
     FORBIDDEN(HttpStatusCode.valueOf(403), "COMMON_403", "Access Denied"),
+
     /**
      * 404 NOT_FOUND
      */
@@ -37,6 +38,7 @@ public enum ErrorCode {
      * 409 CONFLICT
      */
     CONFLICT(HttpStatusCode.valueOf(409), "COMMON_4090", "Requested resource conflict with server resource"),
+    SIGN_UP_USER_ALREADY_EXISTS(HttpStatusCode.valueOf(409), "AUTH_4090", "이미 가입된 사용자입니다."),
 
     /**
      * 500 INTERNAL_SERVER_ERROR
