@@ -1,8 +1,12 @@
 spring:
   config:
     import:
-        - classpath:application-local.yml
-        - classpath:application-cicd.yml
-        - classpath:application-dev.yml
-        - classpath:application-prod.yml
-        - classpath:secret.yml
+      - classpath:application-local.yml
+      - classpath:application-cicd.yml
+      - classpath:application-dev.yml
+      - classpath:application-prod.yml
+      - classpath:secret.yml
+
+springdoc:
+  swagger-ui:
+    url: /openapi3.yaml

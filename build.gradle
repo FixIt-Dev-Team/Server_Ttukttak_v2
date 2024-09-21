@@ -10,6 +10,9 @@ plugins {
 
     // Junit5
     id 'idea'
+
+    // Junit5 to SwaggerDocs
+    id 'com.epages.restdocs-api-spec' version '0.18.2'
 }
 
 group = 'com.backend'
@@ -102,8 +105,33 @@ dependencies {
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
 
-    // Converter
 
+    // Junit5 to SwaggerDocs
+    implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+}
+
+openapi { //2.3
+    host = 'localhost:8080'
+    basePath = '/api'
+    title = 'TtukTtak-openapi'
+    description = 'TtukTtak API description with openapi'
+    version = '1.0.0'
+    format = 'json'
+}
+
+openapi3 {
+    server = 'https://localhost:8080'
+    title = 'TtukTtak-openapi3'
+    description = 'TtukTtak API description with openapi3'
+    version = '0.0.1'
+    format = 'yaml'
+}
+
+postman {
+    title = 'TtukTtak-postman-docs'
+    version = '0.0.1'
+    baseUrl = 'https://localhost:8080' // 
 }
 
 dependencyManagement {
@@ -117,7 +145,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
+tasks.register('copySwagger',Copy){
+    from layout.buildDirectory.file('api-spec/openapi3.yaml')
+    into layout.projectDirectory.dir('src/main/resources/static')
 }
