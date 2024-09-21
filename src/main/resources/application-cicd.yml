@@ -6,7 +6,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
 
 # Todo: 추후 logback 설정으로 넘길 것 (임시)
 logging:

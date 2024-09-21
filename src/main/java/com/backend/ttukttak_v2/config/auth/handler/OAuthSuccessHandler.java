@@ -20,8 +20,8 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
-    @Value("${oauth.token-url}")
-    private String OAUTH_TOKEN_URL;
+
+    private String OAUTH_TOKEN_URL = "/oauth/token";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
