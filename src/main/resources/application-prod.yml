@@ -3,13 +3,12 @@ spring:
   config:
     activate:
       on-profile: prod
-    import:
-      - classpath:/resource-prod/application-prod-datasource.yml
 
-# 추후 logback 설정으로 넘길 것 (임시)
+# Todo: 추후 logback 설정으로 넘길 것 (임시)
 logging:
   charset:
     console: utf-8
+
   level:
     root: error
     org.springframework.web: error

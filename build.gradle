@@ -10,6 +10,9 @@ plugins {
 
     // Junit5
     id 'idea'
+
+    // Junit5 to SwaggerDocs
+    id 'com.epages.restdocs-api-spec' version '0.18.2'
     id 'org.jetbrains.kotlin.jvm'
 }
 
@@ -17,6 +20,7 @@ group = 'com.backend'
 version = '0.0.1-SNAPSHOT'
 
 java {
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -38,6 +42,7 @@ test {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
+    springCloudVersion = "2023.0.3"
 }
 
 sonar {
@@ -57,6 +62,9 @@ dependencies {
     // Web Support
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Cloud Support
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     // Dev Support
     compileOnly 'org.projectlombok:lombok'
@@ -102,9 +110,41 @@ dependencies {
 
     // Mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    
+
     // Converter
 
+    // Junit5 to SwaggerDocs
+    implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+}
+
+openapi { //2.3
+    host = 'localhost:8080'
+    basePath = '/api'
+    title = 'TtukTtak-openapi'
+    description = 'TtukTtak API description with openapi'
+    version = '1.0.0'
+    format = 'json'
+}
+
+openapi3 {
+    server = 'https://localhost:8080'
+    title = 'TtukTtak-openapi3'
+    description = 'TtukTtak API description with openapi3'
+    version = '0.0.1'
+    format = 'yaml'
+}
+
+postman {
+    title = 'TtukTtak-postman-docs'
+    version = '0.0.1'
+    baseUrl = 'https://localhost:8080' //
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
 
 tasks.named('test') {
@@ -112,9 +152,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
+tasks.register('copySwagger',Copy){
+    from layout.buildDirectory.file('api-spec/openapi3.yaml')
+    into layout.projectDirectory.dir('src/main/resources/static')
 }
 kotlin {
     jvmToolchain(17)

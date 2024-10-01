@@ -15,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
@@ -22,6 +23,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@ActiveProfiles("local")
 class TtukttakV2ApplicationTests {
 
     @LocalServerPort
@@ -38,7 +40,7 @@ class TtukttakV2ApplicationTests {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<DummyReqDto> entity =
-                new HttpEntity<>(DummyReqDto.builder().input(10).build(),headers);
+                new HttpEntity<>(headers);
 
         ResponseEntity<BaseResponse> dummyResult
                 = restTemplate.exchange("http://localhost:"+randomServerPort+"/test/mvc",
