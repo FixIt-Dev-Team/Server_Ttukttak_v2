@@ -57,6 +57,7 @@ public class SecurityConfig {
                             request.requestMatchers("/login/oauth2/code/**").permitAll();
                             request.requestMatchers("/error").permitAll();
                             request.requestMatchers("/favicon.ico").permitAll();
+                            request.requestMatchers("/test/**").permitAll();
                             request.anyRequest().authenticated();
                         }
                 )

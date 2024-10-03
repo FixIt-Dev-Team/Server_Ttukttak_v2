@@ -1,3 +1,6 @@
+server:
+  port: 5201
+
 spring:
   config:
     import:
@@ -6,6 +9,20 @@ spring:
       - classpath:application-dev.yml
       - classpath:application-prod.yml
       - classpath:secret.yml
+
+springdoc:
+  swagger-ui:
+    url: /openapi3.yaml
+      - classpath:/resource-common/application-common.yml
+      - classpath:/resource-local/application-local.yml
+      - classpath:/resource-dev/application-dev.yml
+      - classpath:/resource-prod/application-prod.yml
+
+  profiles:
+    group:
+      local: common, local
+      dev: common, dev
+      prod: common, prod
 
 springdoc:
   swagger-ui:
