@@ -29,6 +29,22 @@ public class AuthRequest {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class PasswdReqDto {
+        private String email;
+        private String accountType;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class PasswdResetReqDto {
+        private String PasswdRestToken;
+        private String newPasswd;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class RefreshToken {
 
         private String refreshToken;

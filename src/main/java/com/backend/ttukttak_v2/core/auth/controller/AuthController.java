@@ -5,6 +5,11 @@ import com.backend.ttukttak_v2.core.auth.application.AuthFacade;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdReqDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdResetReqDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +19,9 @@ import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.L
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.SignUpReqDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.VerifyEmailResDto;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -59,6 +67,24 @@ public class AuthController {
 
         HttpHeaders headers = authFacade.refreshToken(req.getRefreshToken());
         return BaseResponse.onAuth(headers);
+    }
+
+    /**
+     * password Find request(reset)
+     */
+    @PostMapping("/passwd")
+    public ResponseEntity<BaseResponse<PasswdResDto>> resetPassword(@RequestBody PasswdReqDto request) {
+
+        return BaseResponse.onSuccess(authFacade.PasswdResetReq(request.getEmail(), request.getAccountType()));
+    }
+
+    /**
+     * ResetPasswd (updateDB)
+     */
+    @PostMapping("/passwd/reset")
+    public ResponseEntity<BaseResponse<PasswdResetResDto>> resetPassword(@RequestBody PasswdResetReqDto request) {
+
+        return BaseResponse.onSuccess(authFacade.SetpasswdReq(request.getPasswdRestToken(), request.getNewPasswd()));
     }
 
 }

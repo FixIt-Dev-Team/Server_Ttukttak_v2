@@ -3,10 +3,15 @@ package com.backend.ttukttak_v2.core.auth.application;
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
 import com.backend.ttukttak_v2.config.jwt.JwtService;
+import com.backend.ttukttak_v2.config.mail.EmailService;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.LoginReqDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
 import com.backend.ttukttak_v2.core.auth.application.info.TokenInfo;
 import com.backend.ttukttak_v2.core.auth.application.service.AuthService;
 import com.backend.ttukttak_v2.data.mysql.entity.User;
-import com.backend.ttukttak_v2.util.EmailService;
+import com.backend.ttukttak_v2.data.mysql.enums.AccountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -14,9 +19,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import static com.backend.ttukttak_v2.core.auth.application.converter.AuthConverter.toLoginResponse;
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.LoginReqDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.SignUpReqDto;
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.VerifyEmailResDto;
 
 /**
@@ -90,4 +93,35 @@ public class AuthFacade {
 
         return VerifyEmailResDto.of(code);
     }
+
+    public PasswdResDto PasswdResetReq(String email, String userType) {
+
+        AccountType userAccountType = AccountType
+                .find(userType)
+                .orElseThrow(() -> BaseException.of(ErrorCode.OAUTH_BAD_PROVIDER));
+
+        User user = authService.findUserForPW(email, userAccountType);
+
+        Long userIdx = user.getUserIdx();
+
+        String temporal_token = jwtService.createAccess(userIdx);
+
+        if (emailService.sendPasswordModify(user.getEmail(), temporal_token)) {
+            return new PasswdResDto(true);
+        } else {
+            return new PasswdResDto(false);
+        }
+
+    }
+
+    public PasswdResetResDto SetpasswdReq(String ResetToken, String newPasswd) {
+
+        long userIdx = jwtService.validateAccess(ResetToken);
+
+        authService.updateUserPasswd(userIdx, newPasswd);
+
+        return new PasswdResetResDto(true);
+    }
+
+
 }
