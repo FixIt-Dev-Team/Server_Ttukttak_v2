@@ -4,11 +4,20 @@ server:
 spring:
   config:
     import:
+      - classpath:application-local.yml
+      - classpath:application-cicd.yml
+      - classpath:application-dev.yml
+      - classpath:application-prod.yml
+      - classpath:secret.yml
+
+springdoc:
+  swagger-ui:
+    url: /openapi3.yaml
       - classpath:/resource-common/application-common.yml
       - classpath:/resource-local/application-local.yml
       - classpath:/resource-dev/application-dev.yml
       - classpath:/resource-prod/application-prod.yml
-  
+
   profiles:
     group:
       local: common, local
