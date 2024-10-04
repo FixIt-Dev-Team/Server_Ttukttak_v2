@@ -8,6 +8,7 @@ import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.LoginReq
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.UpdateAdditonalInfoResDto;
 import com.backend.ttukttak_v2.core.auth.application.info.TokenInfo;
 import com.backend.ttukttak_v2.core.auth.application.service.AuthService;
 import com.backend.ttukttak_v2.data.mysql.entity.User;
@@ -110,6 +111,14 @@ public class AuthFacade {
         authService.updateUserPasswd(userIdx, newPasswd);
 
         return new PasswdResetResDto(true);
+    }
+
+    public UpdateAdditonalInfoResDto SetAdditionalInfoReq(long userIdx, String UserName){
+
+        authService.updateAdditionalInfo(userIdx, UserName);
+
+        return new UpdateAdditonalInfoResDto(true);
+
     }
 
 

@@ -37,4 +37,11 @@ public class AuthRequest {
 
         private String refreshToken;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateAdditionalInfoReqDto {
+        private String UserName;
+    }
 }

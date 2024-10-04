@@ -28,4 +28,10 @@ public class AuthResponse {
     public static class PasswdResetResDto {
         private Boolean Status;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class UpdateAdditonalInfoResDto {
+        private Boolean Status;
+    }
 }

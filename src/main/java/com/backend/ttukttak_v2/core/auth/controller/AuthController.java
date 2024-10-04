@@ -5,8 +5,10 @@ import com.backend.ttukttak_v2.core.auth.application.AuthFacade;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdReqDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdResetReqDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.UpdateAdditionalInfoReqDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
+import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.UpdateAdditonalInfoResDto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -66,4 +68,13 @@ public class AuthController {
         return BaseResponse.onSuccess(authFacade.SetpasswdReq(request.getPasswdRestToken(), request.getNewPasswd()));
     }
 
+    /**
+     * SetUserName (updateDB)
+     */
+    @PostMapping("/additional/info")
+    public ResponseEntity<BaseResponse<UpdateAdditonalInfoResDto>> setAdditionalInfo(@RequestAttribute("userIdx") long userIdx, @RequestBody UpdateAdditionalInfoReqDto request) {
+        
+        return BaseResponse.onSuccess(authFacade.SetAdditionalInfoReq(userIdx,request.getUserName()));
+    }
+    
 }

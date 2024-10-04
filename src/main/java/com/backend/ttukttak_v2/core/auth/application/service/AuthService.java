@@ -14,4 +14,6 @@ public interface AuthService {
 
     boolean updateUserPasswd(long userIdx, String newPasswd);
 
+    boolean updateAdditionalInfo(long userIdx, String newUserName);
+
 }

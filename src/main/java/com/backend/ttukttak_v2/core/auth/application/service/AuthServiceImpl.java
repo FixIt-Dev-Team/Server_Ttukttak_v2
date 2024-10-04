@@ -48,4 +48,14 @@ public class AuthServiceImpl implements AuthService {
 
         return true;
     }
+
+    @Override
+    public boolean updateAdditionalInfo(long userIdx, String newUserName){
+        User user = userRepository.findById(userIdx).orElseThrow(() ->
+        BaseException.of(ErrorCode.LOGIN_USER_NOT_FOUND));
+
+        user.updateNickName(newUserName);
+
+        return true;
+    }
 }
