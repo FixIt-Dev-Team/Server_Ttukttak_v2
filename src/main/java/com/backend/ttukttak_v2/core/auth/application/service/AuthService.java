@@ -18,4 +18,6 @@ public interface AuthService {
 
     boolean updateUserPasswd(long userIdx, String newPasswd);
 
+    User getUser(Long userIdx);
+
 }

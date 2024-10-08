@@ -1,14 +1,14 @@
 package com.backend.ttukttak_v2.config.security;
 
-import com.backend.ttukttak_v2.config.auth.handler.OAuthFailureHandler;
-import com.backend.ttukttak_v2.config.auth.handler.OAuthSuccessHandler;
-import com.backend.ttukttak_v2.config.jwt.JwtAuthenticationFilter;
-import com.backend.ttukttak_v2.config.jwt.JwtService;
+import com.backend.ttukttak_v2.config.handler.auth.OAuthFailureHandler;
+import com.backend.ttukttak_v2.config.handler.auth.OAuthSuccessHandler;
+import com.backend.ttukttak_v2.config.security.filter.JwtAuthenticationFilter;
 import com.backend.ttukttak_v2.config.web.CorsConfig;
 import com.backend.ttukttak_v2.core.auth.application.service.AuthService;
 import com.backend.ttukttak_v2.core.oauth2.repository.CustomOAuth2AuthorizationRequestRepository;
 import com.backend.ttukttak_v2.core.oauth2.repository.InMemoryRegistrationRepository;
 import com.backend.ttukttak_v2.core.oauth2.service.CustomOAuthUserService;
+import com.backend.ttukttak_v2.framework.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

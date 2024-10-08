@@ -2,24 +2,31 @@ package com.backend.ttukttak_v2.core.auth.application;
 
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
-import com.backend.ttukttak_v2.config.jwt.JwtService;
-import com.backend.ttukttak_v2.config.mail.EmailService;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.LoginReqDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
 import com.backend.ttukttak_v2.core.auth.application.info.TokenInfo;
 import com.backend.ttukttak_v2.core.auth.application.service.AuthService;
+import com.backend.ttukttak_v2.core.auth.application.service.PolicyService;
+import com.backend.ttukttak_v2.data.mysql.entity.Policy;
 import com.backend.ttukttak_v2.data.mysql.entity.User;
 import com.backend.ttukttak_v2.data.mysql.enums.AccountType;
+import com.backend.ttukttak_v2.framework.email.EmailService;
+import com.backend.ttukttak_v2.framework.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.List;
+
 import static com.backend.ttukttak_v2.core.auth.application.converter.AuthConverter.toLoginResponse;
+import static com.backend.ttukttak_v2.core.auth.application.converter.AuthConverter.toPolicyResponse;
+import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PolicyApproveReqDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.SignUpReqDto;
+import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.GetPolicyDto;
 import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.VerifyEmailResDto;
 
 /**
@@ -34,11 +41,18 @@ public class AuthFacade {
     private final JwtService jwtService;
     private final AuthService authService;
     private final EmailService emailService;
+    private final PolicyService policyService;
 
+    /**
+     * 회원가입 API
+     */
     public void signUp(SignUpReqDto request) {
         authService.signUp(request.getEmail(), request.getPassword());
     }
 
+    /**
+     * 로그인 API
+     */
     public LoginResDto login(LoginReqDto request) {
         User user = authService.getUserOnLogin(request.getEmail(), request.getPassword());
 
@@ -52,6 +66,9 @@ public class AuthFacade {
         return toLoginResponse(info);
     }
 
+    /**
+     * OAuth 로그인 시 토큰 발급
+     */
     public LoginResDto changeOauthToToken(String email) {
         User user = authService.getUserOnLogin(email, email);
 
@@ -65,6 +82,9 @@ public class AuthFacade {
         return toLoginResponse(info);
     }
 
+    /**
+     * 토큰 재발급 API
+     */
     public HttpHeaders refreshToken(String refreshToken) {
         Long userIdx = jwtService.validateRefresh(refreshToken);
         if (!authService.checkRefreshToken(refreshToken, userIdx)) {
@@ -86,15 +106,21 @@ public class AuthFacade {
         return HttpHeaders.readOnlyHttpHeaders(header);
     }
 
+    /**
+     * 이메일 인증 API
+     */
     public VerifyEmailResDto verifyEmail(String email) {
         String code = authService.generateVerifyCode();
 
-        emailService.sendEmail(email, "", code);  // 이메일 전송
+        emailService.sendEmailAuth(email, code);  // 이메일 전송
 
         return VerifyEmailResDto.of(code);
     }
 
-    public PasswdResDto PasswdResetReq(String email, String userType) {
+    /**
+     * 비밀번호 찾기 API
+     */
+    public PasswdResDto passwdResetReq(String email, String userType) {
 
         AccountType userAccountType = AccountType
                 .find(userType)
@@ -104,9 +130,9 @@ public class AuthFacade {
 
         Long userIdx = user.getUserIdx();
 
-        String temporal_token = jwtService.createAccess(userIdx);
+        String temporalToken = jwtService.createAccess(userIdx);
 
-        if (emailService.sendPasswordModify(user.getEmail(), temporal_token)) {
+        if (emailService.sendPasswordModify(user.getEmail(), temporalToken)) {
             return new PasswdResDto(true);
         } else {
             return new PasswdResDto(false);
@@ -114,14 +140,29 @@ public class AuthFacade {
 
     }
 
-    public PasswdResetResDto SetpasswdReq(String ResetToken, String newPasswd) {
+    public PasswdResetResDto setPasswdReq(String accessToken, String newPasswd) {
 
-        long userIdx = jwtService.validateAccess(ResetToken);
+        long userIdx = jwtService.validateAccess(accessToken);
 
         authService.updateUserPasswd(userIdx, newPasswd);
 
         return new PasswdResetResDto(true);
     }
 
+    /**
+     * 약관 조회 API
+     */
+    public List<GetPolicyDto> getPolicy() {
+        List<Policy> policies = policyService.getPolicies();
 
+        return toPolicyResponse(policies);
+    }
+
+    /**
+     * 약관 동의 API
+     */
+    public void agreePolicy(List<PolicyApproveReqDto> request, Long userIdx) {
+        User user = authService.getUser(userIdx);
+        policyService.approvePolicies(request, user);
+    }
 }

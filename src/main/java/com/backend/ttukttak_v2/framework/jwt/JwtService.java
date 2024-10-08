@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.config.jwt;
+package com.backend.ttukttak_v2.framework.jwt;
 
 
 import com.backend.ttukttak_v2.base.BaseException;

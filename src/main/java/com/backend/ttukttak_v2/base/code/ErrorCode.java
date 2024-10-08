@@ -14,6 +14,7 @@ public enum ErrorCode {
     OAUTH_BAD_PROVIDER(HttpStatusCode.valueOf(400), "OAUTH_4000", "유효하지않은 OAuth2 제공자입니다."),
     LOGIN_USER_NOT_FOUND(HttpStatusCode.valueOf(400), "AUTH_4000", "로그인 정보가 유효하지 않습니다."),
     REFRESH_TOKEN_INVALID(HttpStatusCode.valueOf(400), "AUTH_4001", "Refresh Token이 유효하지 않습니다. 재로그인 필요"),
+    INVALID_POLICY_APPROVE_REQUEST(HttpStatusCode.valueOf(400), "POLICY_4000", "약관 동의 요청이 올바르지 않습니다."),
 
     /**
      * 401 UNAUTHORIZED

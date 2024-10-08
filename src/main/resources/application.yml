@@ -23,7 +23,3 @@ springdoc:
       local: common, local
       dev: common, dev
       prod: common, prod
-
-springdoc:
-  swagger-ui:
-    url: /openapi3.yaml

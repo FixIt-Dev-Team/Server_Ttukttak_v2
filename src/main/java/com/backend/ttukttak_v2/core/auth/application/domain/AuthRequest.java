@@ -49,4 +49,12 @@ public class AuthRequest {
 
         private String refreshToken;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class PolicyApproveReqDto {
+        private Long policyIdx;
+        private Boolean isApprove;
+    }
 }

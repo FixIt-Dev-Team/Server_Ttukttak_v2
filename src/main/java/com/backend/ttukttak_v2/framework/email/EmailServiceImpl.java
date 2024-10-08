@@ -1,17 +1,15 @@
-package com.backend.ttukttak_v2.config.mail;
-
-import org.springframework.stereotype.Service;
+package com.backend.ttukttak_v2.framework.email;
 
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
-
-import lombok.RequiredArgsConstructor;
-import java.security.SecureRandom;
-
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
 
 import static jakarta.mail.Message.RecipientType.TO;
 
@@ -26,12 +24,8 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String myEmail;
 
-    private String ePw;
-
     // 메일의 내용을 작성하는 클래스
-    private MimeMessage createMessage(String email) throws Exception {
-        ePw = createKey();
-
+    private MimeMessage createEmailAuthMessage(String email, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
         message.addRecipients(TO, email); // 보내는 대상
@@ -49,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
         msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> ";
+        msgg += code + "</strong><div><br/> ";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html"); // 내용
         message.setFrom(new InternetAddress(myEmail, "뚝딱")); // 보내는 사람
@@ -57,37 +51,23 @@ public class EmailServiceImpl implements EmailService {
         return message;
     }
 
-    // 이메일로 발송할 인증코드를 생성하는 메서드 => keep In V2
-    private static String createKey() {
-        StringBuilder key = new StringBuilder();
-        random.setSeed(System.currentTimeMillis());
-
-        // 숫자로 구성된 8자리 인증 코드 생성
-        for (int i = 0; i < 8; i++) {
-            key.append(random.nextInt(10));
-        }
-
-        return key.toString();
-    }
-
     // 이메일을 발송하는 메서드
     @Override
-    public Boolean sendSimpleMessage(String to) throws BaseException {
+    public Boolean sendEmailAuth(String to, String code) throws BaseException {
         try {
-            MimeMessage message = createMessage(to);
+            MimeMessage message = createEmailAuthMessage(to, code);
 
             emailSender.send(message);
             return true;
 
         } catch (Exception e) {
-            BaseException.of(ErrorCode.EMAIL_USER_NOT_FOUND);
-            return false;
+            throw BaseException.of(ErrorCode.EMAIL_USER_NOT_FOUND);
         }
     }
 
     /**
      * 비밀번호 수정 이메일 전송 메서드
-     * */
+     */
     @Override
     public Boolean sendPasswordModify(String to, String TemporalKey) throws BaseException {
 
@@ -103,8 +83,7 @@ public class EmailServiceImpl implements EmailService {
             emailSender.send(message);
 
             return true;
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             BaseException.of(ErrorCode.EMAIL_USER_NOT_FOUND);
             return false;
         }

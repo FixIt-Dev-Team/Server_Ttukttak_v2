@@ -3,24 +3,18 @@ package com.backend.ttukttak_v2.core.auth.controller;
 import com.backend.ttukttak_v2.base.BaseResponse;
 import com.backend.ttukttak_v2.core.auth.application.AuthFacade;
 import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest;
+import com.backend.ttukttak_v2.framework.jwt.JwtService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdReqDto;
-import com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PasswdResetReqDto;
-import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResDto;
-import com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.PasswdResetResDto;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.LoginReqDto;
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.SignUpReqDto;
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.LoginResDto;
-import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.VerifyEmailResDto;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import java.util.List;
+
+import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.*;
+import static com.backend.ttukttak_v2.core.auth.application.domain.AuthResponse.*;
 
 
 @RestController
@@ -28,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthFacade authFacade;
+    private final JwtService jwtService;
 
     /**
      * 회원가입 API
@@ -46,11 +41,14 @@ public class AuthController {
         return BaseResponse.onSuccess(authFacade.login(request));
     }
 
+    /**
+     * OAuth 로그인 시 Token 발급 API
+     */
     @GetMapping("/oauth/token")
     private ResponseEntity<BaseResponse<LoginResDto>> changeOauthToToken(@RequestParam("email") String email) {
         return BaseResponse.onSuccess(authFacade.changeOauthToToken(email));
     }
-    
+
     /**
      * 이메일 인증 API
      */
@@ -75,7 +73,7 @@ public class AuthController {
     @PostMapping("/passwd")
     public ResponseEntity<BaseResponse<PasswdResDto>> resetPassword(@RequestBody PasswdReqDto request) {
 
-        return BaseResponse.onSuccess(authFacade.PasswdResetReq(request.getEmail(), request.getAccountType()));
+        return BaseResponse.onSuccess(authFacade.passwdResetReq(request.getEmail(), request.getAccountType()));
     }
 
     /**
@@ -84,7 +82,25 @@ public class AuthController {
     @PostMapping("/passwd/reset")
     public ResponseEntity<BaseResponse<PasswdResetResDto>> resetPassword(@RequestBody PasswdResetReqDto request) {
 
-        return BaseResponse.onSuccess(authFacade.SetpasswdReq(request.getPasswdRestToken(), request.getNewPasswd()));
+        return BaseResponse.onSuccess(authFacade.setPasswdReq(request.getPasswdRestToken(), request.getNewPasswd()));
+    }
+
+    /**
+     * 약관 조회 API
+     */
+    @GetMapping("/agree")
+    public ResponseEntity<BaseResponse<List<GetPolicyDto>>> getPolicy() {
+        return BaseResponse.onSuccess(authFacade.getPolicy());
+    }
+
+    /**
+     * 약관 동의 API
+     */
+    @PostMapping("/agree")
+    public ResponseEntity<BaseResponse<Boolean>> agreePolicy(@RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken, @RequestBody List<PolicyApproveReqDto> request) {
+        Long userIdx = jwtService.validateAccess(accessToken);
+        authFacade.agreePolicy(request, userIdx);
+        return BaseResponse.onSuccess(true);
     }
 
 }

@@ -60,12 +60,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean updateUserPasswd(long userIdx,String newPasswd){
+    public boolean updateUserPasswd(long userIdx, String newPasswd) {
         User user = userRepository.findById(userIdx).orElseThrow(() ->
-        BaseException.of(ErrorCode.LOGIN_USER_NOT_FOUND));
+                BaseException.of(ErrorCode.LOGIN_USER_NOT_FOUND));
 
         user.updateUserPasswd(newPasswd);
 
         return true;
+    }
+
+    @Override
+    public User getUser(Long userIdx) {
+        return userRepository.findById(userIdx).orElseThrow(() ->
+                BaseException.of(ErrorCode.LOGIN_USER_NOT_FOUND));
     }
 }

@@ -3,7 +3,7 @@ package com.backend.ttukttak_v2.advice;
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.BaseResponse;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
-import com.backend.ttukttak_v2.util.SlackService;
+import com.backend.ttukttak_v2.framework.slack.SlackService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
