@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.config.dataaccess;
+package com.backend.ttukttak_v2.config.data;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

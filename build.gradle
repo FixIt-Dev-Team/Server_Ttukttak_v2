@@ -13,6 +13,7 @@ plugins {
 
     // Junit5 to SwaggerDocs
     id 'com.epages.restdocs-api-spec' version '0.18.2'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.backend'
@@ -60,6 +61,7 @@ dependencies {
 
     // Web Support
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Cloud Support
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
@@ -104,9 +106,12 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.39.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    //email
+    // Mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // Converter
 
     // Junit5 to SwaggerDocs
     implementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2' //2.2
@@ -133,7 +138,7 @@ openapi3 {
 postman {
     title = 'TtukTtak-postman-docs'
     version = '0.0.1'
-    baseUrl = 'https://localhost:8080' // 
+    baseUrl = 'https://localhost:8080' //
 }
 
 dependencyManagement {
@@ -150,4 +155,7 @@ tasks.named('test') {
 tasks.register('copySwagger',Copy){
     from layout.buildDirectory.file('api-spec/openapi3.yaml')
     into layout.projectDirectory.dir('src/main/resources/static')
+}
+kotlin {
+    jvmToolchain(17)
 }

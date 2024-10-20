@@ -1,8 +1,9 @@
-package com.backend.ttukttak_v2.config.jwt;
+package com.backend.ttukttak_v2.config.security.filter;
 
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;
 import com.backend.ttukttak_v2.core.auth.application.service.AuthService;
+import com.backend.ttukttak_v2.framework.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

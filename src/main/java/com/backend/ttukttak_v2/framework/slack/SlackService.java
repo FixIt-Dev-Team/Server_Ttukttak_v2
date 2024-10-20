@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.util;
+package com.backend.ttukttak_v2.framework.slack;
 
 import jakarta.servlet.http.HttpServletRequest;
 

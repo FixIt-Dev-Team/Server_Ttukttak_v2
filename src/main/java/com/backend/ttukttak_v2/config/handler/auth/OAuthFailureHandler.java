@@ -1,4 +1,4 @@
-package com.backend.ttukttak_v2.config.auth.handler;
+package com.backend.ttukttak_v2.config.handler.auth;
 
 import com.backend.ttukttak_v2.base.BaseException;
 import com.backend.ttukttak_v2.base.code.ErrorCode;

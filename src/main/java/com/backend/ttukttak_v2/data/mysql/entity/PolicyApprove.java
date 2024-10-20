@@ -1,15 +1,17 @@
 package com.backend.ttukttak_v2.data.mysql.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.backend.ttukttak_v2.core.auth.application.domain.AuthRequest.PolicyApproveReqDto;
 
 @Slf4j
 @Getter
 @Entity(name = "TB_POLICY_APPROVE")
 @Table(name = "TB_POLICY_APPROVE")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PolicyApprove extends BaseTimeEntity {
 
@@ -31,4 +33,14 @@ public class PolicyApprove extends BaseTimeEntity {
 
     @Column(name = "status", nullable = false)
     private Boolean status;
+
+    public static PolicyApprove ofApprove(PolicyApproveReqDto dto, Policy policy, User user) {
+        return PolicyApprove.builder()
+                .policy(policy)
+                .user(user)
+                .approved(dto.getIsApprove())
+                .status(true)
+                .build();
+
+    }
 }

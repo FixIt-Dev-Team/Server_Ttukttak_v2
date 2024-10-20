@@ -12,6 +12,12 @@ public interface AuthService {
 
     void updateRefreshToken(String refreshToken, Long userIdx);
 
+    void signUp(String email, String password);
+
+    String generateVerifyCode();
+
     boolean updateUserPasswd(long userIdx, String newPasswd);
+
+    User getUser(Long userIdx);
 
 }
